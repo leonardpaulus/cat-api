@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
     "name": "dumbledore",
-    "age": "7",
+    "age": 7,
     "race": "Persian Cat"
 }
 

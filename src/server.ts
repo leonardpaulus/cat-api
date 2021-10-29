@@ -51,6 +51,17 @@ app.get('/api/cats', async (_request, response) => {
   response.status(200).send(allCats);
 });
 
+app.get('/api/cats/:name', async (request, response) => {
+  const catsCollection = getCatsCollection();
+  const searchedCat = request.params.name;
+  const foundCat = await catsCollection.findOne({ name: searchedCat });
+  if (foundCat) {
+    response.status(200).send(foundCat);
+  } else {
+    response.status(404).send('Cat not found');
+  }
+});
+
 app.get('/', (_req, res) => {
   res.send('Hello World!');
 });
