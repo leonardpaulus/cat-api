@@ -62,6 +62,18 @@ app.get('/api/cats/:name', async (request, response) => {
   }
 });
 
+app.delete('/api/cats/:name', async (request, response) => {
+  const catsCollection = getCatsCollection();
+  const catToDelete = request.params.name;
+  const foundCat = await catsCollection.findOne({ name: catToDelete });
+  if (foundCat) {
+    catsCollection.deleteOne({ name: catToDelete });
+    response.status(200).send(`${catToDelete} was deleted!`);
+  } else {
+    response.status(404).send('Cat not found');
+  }
+});
+
 app.get('/', (_req, res) => {
   res.send('Hello World!');
 });
