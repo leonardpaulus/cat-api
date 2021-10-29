@@ -1,0 +1,19 @@
+### Get all cats
+GET http://localhost:3000/api/cats HTTP/1.1
+
+### Get a single cat
+GET http://localhost:3000/api/cats/:catname HTTP/1.1
+
+### Add a cat
+POST http://localhost:3000/api/cats HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "dumbledore",
+    "age": "7",
+    "race": "Persian Cat"
+}
+
+### Delete a cat
+DELETE http://localhost:3000/api/cats/:catname HTTP/1.1
+
