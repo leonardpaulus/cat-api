@@ -4,22 +4,20 @@ dotenv.config();
 import express from 'express';
 import { connectDatabase } from './utils/database';
 import { getCatsCollection } from './utils/database';
+import cookieParser from 'cookie-parser';
 
 if (!process.env.MONGODB_URI) {
   throw new Error('No MongoDB URL dotenv variable');
 }
 
 const app = express();
-const port = 3000;
-
-// Custom middleware to log requests
-app.use((request, _response, next) => {
-  console.log('Request received', request.url);
-  next();
-});
+const port = 3333;
 
 // Middleware for parsing application/json
 app.use(express.json());
+
+// Middleware for parsing cookies
+app.use(cookieParser());
 
 // Post a cat to the Database
 app.post('/api/cats', async (request, response) => {
@@ -30,7 +28,8 @@ app.post('/api/cats', async (request, response) => {
   if (
     typeof newCat.name !== 'string' ||
     typeof newCat.age !== 'number' ||
-    typeof newCat.race !== 'string'
+    typeof newCat.race !== 'string' ||
+    typeof newCat.password !== 'string'
   ) {
     response.status(400).send('Missing properties');
     return;
@@ -71,6 +70,23 @@ app.delete('/api/cats/:name', async (request, response) => {
     response.status(200).send(`${catToDelete} was deleted!`);
   } else {
     response.status(404).send('Cat not found');
+  }
+});
+
+app.post('/api/login', async (request, response) => {
+  const catsCollection = getCatsCollection();
+  const loginCat = request.body;
+  const cat = await catsCollection.findOne({
+    name: loginCat.name,
+    password: loginCat.password,
+  });
+
+  if (cat) {
+    response.setHeader('Set-Cookie', `name=${loginCat.name}`);
+    response.status(202).send('Cat is logged in');
+    console.log(request.cookies);
+  } else {
+    response.status(401).send('Login failed');
   }
 });
 
