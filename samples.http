@@ -1,19 +1,32 @@
 ### Get all cats
-GET http://localhost:3000/api/cats HTTP/1.1
+GET http://localhost:3333/api/cats HTTP/1.1
 
 ### Get a single cat
-GET http://localhost:3000/api/cats/:catname HTTP/1.1
+GET http://localhost:3333/api/cats/dumbledore HTTP/1.1
 
 ### Add a cat
-POST http://localhost:3000/api/cats HTTP/1.1
+POST http://localhost:3333/api/cats HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "tinkywinky",
+    "age": 9,
+    "race": "Naked Cat",
+    "password": "859password!"
+}
+
+### Delete a cat
+DELETE http://localhost:3333/api/cats/tinkywinky HTTP/1.1
+
+
+### Login a cat
+POST http://localhost:3333/api/login HTTP/1.1
 Content-Type: application/json
 
 {
     "name": "dumbledore",
-    "age": 7,
-    "race": "Persian Cat"
+    "password": "pw123"
 }
 
-### Delete a cat
-DELETE http://localhost:3000/api/cats/:catname HTTP/1.1
-
+### Get logged in cat
+GET http://localhost:3333/api/me HTTP/1.1
