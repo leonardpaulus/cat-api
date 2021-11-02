@@ -90,11 +90,6 @@ app.post('/api/login', async (request, response) => {
   }
 });
 
-app.get('/api/login', async (request, response) => {
-  const catsCollection = getCatsCollection();
-  const foundCat = await catsCollection.findOne({ name: response.cookie.name });
-});
-
 app.get('/', (_req, res) => {
   res.send('Hello World!');
 });
